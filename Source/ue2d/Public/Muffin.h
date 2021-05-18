@@ -23,9 +23,26 @@ protected:
 
 	void LaunchOnAnyKeyPress();
 
+	void SetSpeed();
+
+	void CheckIfFailing();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdateTimer();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ResetTimer();
+
 	APlayerController* PC;
 
 	FVector LaunchVelocity;
+
+	UPROPERTY(EditAnyWhere, Category="Speed")
+	float AirSpeed;
+	UPROPERTY(EditAnyWhere, Category = "Speed")
+	float GroundSpeed;
+
+	int Score;
 
 public:	
 	// Called every frame
@@ -34,5 +51,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
 	void Launch();
+
+	void IncreaseScore();
+
+	int GetScore() const;
 };

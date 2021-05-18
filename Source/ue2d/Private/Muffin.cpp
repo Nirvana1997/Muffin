@@ -2,6 +2,7 @@
 
 
 #include "Muffin.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AMuffin::AMuffin()
@@ -9,6 +10,9 @@ AMuffin::AMuffin()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	LaunchVelocity = FVector(0, 0, 1500);
+	AirSpeed = 3500.0f;
+	GroundSpeed = 300.0f;
+	Score = 0;
 }
 
 // Called when the game starts or when spawned
@@ -39,11 +43,22 @@ void AMuffin::Launch()
 	LaunchCharacter(LaunchVelocity, false, true);
 }
 
+void AMuffin::IncreaseScore()
+{
+	Score++;
+}
+
+int AMuffin::GetScore() const
+{
+	return Score;
+}
+
 // Called every frame
 void AMuffin::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	MoveTowardsCursor();
+	SetSpeed();
 }
 
 // Called to bind functionality to input
@@ -51,5 +66,29 @@ void AMuffin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMuffin::LaunchOnAnyKeyPress);
+}
+
+void AMuffin::SetSpeed()
+{
+	if (GetCharacterMovement()->IsFalling() == true)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = AirSpeed;
+	}
+	else
+	{
+		GetCharacterMovement()->MaxWalkSpeed = GroundSpeed;
+	}
+}
+
+void AMuffin::CheckIfFailing()
+{
+	if (GetCharacterMovement()->Velocity.Z < 0)
+	{
+		UpdateTimer();
+	}
+	else
+	{
+		ResetTimer();
+	}
 }
 

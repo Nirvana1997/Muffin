@@ -4,7 +4,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameCamera.h"
 #include "Camera/CameraComponent.h"
+#include "Components/BoxComponent.h"
 #include "Muffin.h"
+#include "Cloud.h"
 
 // Sets default values
 AGameCamera::AGameCamera()
@@ -14,6 +16,9 @@ AGameCamera::AGameCamera()
 
 	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 	CameraComp->SetupAttachment(RootComponent);
+
+	DestroyArea = CreateDefaultSubobject<UBoxComponent>(TEXT("DestroyArea"));
+	DestroyArea->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -39,5 +44,16 @@ void AGameCamera::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	MoveCamera();
+}
+
+void AGameCamera::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	Super::NotifyActorBeginOverlap(OtherActor);
+
+	Cloud = Cast<ACloud>(OtherActor);
+	if (Cloud)
+	{
+		Cloud->Destroy();
+	}
 }
 

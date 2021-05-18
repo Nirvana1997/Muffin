@@ -7,6 +7,7 @@
 #include "Cloud.generated.h"
 
 class UBoxComponent;
+class UTextRenderComponent;
 class AMuffin;
 
 UCLASS()
@@ -24,20 +25,29 @@ protected:
 
 	void SetARandomCloudTexture();
 
+	void DisplayScore();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void FadeOut();
+
 	UPROPERTY(VisibleAnyWhere, Category="Collision")
 	UBoxComponent* BoxCollision;
 
-	UPROPERTY(VisibleAnyWhere, Category="Show")
+	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category="Show")
 	UStaticMeshComponent* CloudPlane;
 
 	UPROPERTY(EditAnyWhere, Category="Show")
 	TArray<UTexture*> Textures;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Show")
 	UMaterialInstanceDynamic* MatInstance;
 
 	UMaterialInterface* MatInterface;
 
 	AMuffin* Muffin;
+
+	UPROPERTY(VisibleAnyWhere, Category = "Show")
+	UTextRenderComponent* ScoreText;
 
 public:	
 	// Called every frame

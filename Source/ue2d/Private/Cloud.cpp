@@ -4,6 +4,7 @@
 #include "Cloud.h"
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/TextRenderComponent.h"
 #include "Materials/MaterialInterface.h"
 #include "Materials/MaterialInstance.h"
 #include "Muffin.h"
@@ -20,6 +21,8 @@ ACloud::ACloud()
 	CloudPlane = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CloudPlane"));
 	CloudPlane->SetupAttachment(RootComponent);
 	
+	ScoreText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("ScoreText"));
+	ScoreText->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -43,6 +46,12 @@ void ACloud::SetARandomCloudTexture()
 	}
 }
 
+void ACloud::DisplayScore()
+{
+	Muffin->IncreaseScore();
+	ScoreText->SetText(FText::FromString(FString::FromInt(Muffin->GetScore())));
+}
+
 // Called every frame
 void ACloud::Tick(float DeltaTime)
 {
@@ -58,6 +67,8 @@ void ACloud::NotifyActorBeginOverlap(AActor* OtherActor)
 	if (Muffin)
 	{
 		Muffin->Launch();
+		DisplayScore();
+		FadeOut();
 	}
 }
 

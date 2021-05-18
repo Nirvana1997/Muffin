@@ -8,6 +8,8 @@
 
 class UCameraComponent;
 class AMuffin;
+class UBoxComponent;
+class ACloud;
 
 UCLASS()
 class UE2D_API AGameCamera : public AActor
@@ -24,15 +26,21 @@ protected:
 
 	void MoveCamera();
 
-	UPROPERTY(VisibleAnyWhere)
+	UPROPERTY(VisibleAnyWhere, Category = "Component")
 	UCameraComponent* CameraComp;
+
+	UPROPERTY(VisibleAnyWhere, Category="Component")
+	UBoxComponent* DestroyArea;
 
 	APlayerController* PC;
 
 	AMuffin* Muffin;
 
+	ACloud* Cloud;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 };
