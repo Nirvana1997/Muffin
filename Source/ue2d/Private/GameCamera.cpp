@@ -19,6 +19,8 @@ AGameCamera::AGameCamera()
 
 	DestroyArea = CreateDefaultSubobject<UBoxComponent>(TEXT("DestroyArea"));
 	DestroyArea->SetupAttachment(RootComponent);
+
+	bFollowPlayer = true;
 }
 
 // Called when the game starts or when spawned
@@ -38,12 +40,38 @@ void AGameCamera::MoveCamera()
 	SetActorLocation(TargetPos);
 }
 
+void AGameCamera::CheckIfFailing()
+{
+	if (Muffin->GetVelocity().Z < 0)
+	{
+		UpdateTimer();
+	}
+	else
+	{
+		ResetTimer();
+	}
+}
+
+void AGameCamera::onSureFailing()
+{
+	bFollowPlayer = false;
+	SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, 0));
+
+	Muffin->SetActorLocation(FVector(Muffin->GetActorLocation().X, Muffin->GetActorLocation().Y, 0));
+	Muffin->DisableInput(PC);
+}
+
 // Called every frame
 void AGameCamera::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	MoveCamera();
+	if (bFollowPlayer == true)
+	{
+		MoveCamera();
+
+		CheckIfFailing();
+	}
 }
 
 void AGameCamera::NotifyActorBeginOverlap(AActor* OtherActor)

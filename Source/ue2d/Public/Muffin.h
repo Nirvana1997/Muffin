@@ -25,13 +25,17 @@ protected:
 
 	void SetSpeed();
 
-	void CheckIfFailing();
+	void GameOver();
+
+	UFUNCTION(BlueprintCallable)
+	void Reset();
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void UpdateTimer();
+	void DisplayRestart();
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void ResetTimer();
+	bool bDead;
+
+	bool bGameStarted;
 
 	APlayerController* PC;
 

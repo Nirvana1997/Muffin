@@ -12,7 +12,7 @@ AMuffin::AMuffin()
 	LaunchVelocity = FVector(0, 0, 1500);
 	AirSpeed = 3500.0f;
 	GroundSpeed = 300.0f;
-	Score = 0;
+	Reset();
 }
 
 // Called when the game starts or when spawned
@@ -35,7 +35,11 @@ void AMuffin::MoveTowardsCursor()
 
 void AMuffin::LaunchOnAnyKeyPress()
 {
-	Launch();
+	if (bGameStarted == false)
+	{
+		Launch();
+		bGameStarted = true;
+	}
 }
 
 void AMuffin::Launch()
@@ -57,8 +61,11 @@ int AMuffin::GetScore() const
 void AMuffin::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	MoveTowardsCursor();
-	SetSpeed();
+	if (bDead == false)
+	{
+		MoveTowardsCursor();
+		SetSpeed();
+	}
 }
 
 // Called to bind functionality to input
@@ -76,19 +83,28 @@ void AMuffin::SetSpeed()
 	}
 	else
 	{
-		GetCharacterMovement()->MaxWalkSpeed = GroundSpeed;
+		if (bGameStarted == false)
+		{
+			GetCharacterMovement()->MaxWalkSpeed = GroundSpeed;
+		}
+		else
+		{
+			GameOver();
+		}
 	}
 }
 
-void AMuffin::CheckIfFailing()
+void AMuffin::GameOver()
 {
-	if (GetCharacterMovement()->Velocity.Z < 0)
-	{
-		UpdateTimer();
-	}
-	else
-	{
-		ResetTimer();
-	}
+	bDead = true;
+	SetActorRotation(FRotator::ZeroRotator);
+	EnableInput(PC);
+	DisplayRestart();
 }
 
+void AMuffin::Reset()
+{
+	Score = 0;
+	bDead = false;
+	bGameStarted = false;
+}

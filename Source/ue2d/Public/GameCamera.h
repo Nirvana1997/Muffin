@@ -26,6 +26,17 @@ protected:
 
 	void MoveCamera();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdateTimer();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ResetTimer();
+
+	void CheckIfFailing();
+
+	UFUNCTION(BlueprintCallable)
+	void onSureFailing();
+
 	UPROPERTY(VisibleAnyWhere, Category = "Component")
 	UCameraComponent* CameraComp;
 
@@ -37,6 +48,9 @@ protected:
 	AMuffin* Muffin;
 
 	ACloud* Cloud;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bFollowPlayer;
 
 public:	
 	// Called every frame
