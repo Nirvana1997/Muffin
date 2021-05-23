@@ -15,8 +15,8 @@ UCLASS()
 class UE2D_API AGameCamera : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AGameCamera();
 
@@ -27,21 +27,21 @@ protected:
 	void MoveCamera();
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void UpdateTimer();
+		void UpdateTimer();
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void ResetTimer();
+		void ResetTimer();
 
 	void CheckIfFailing();
 
 	UFUNCTION(BlueprintCallable)
-	void onSureFailing();
+		void onSureFailing();
 
 	UPROPERTY(VisibleAnyWhere, Category = "Component")
-	UCameraComponent* CameraComp;
+		UCameraComponent* CameraComp;
 
-	UPROPERTY(VisibleAnyWhere, Category="Component")
-	UBoxComponent* DestroyArea;
+	UPROPERTY(VisibleAnyWhere, Category = "Component")
+		UBoxComponent* DestroyArea;
 
 	APlayerController* PC;
 
@@ -50,9 +50,9 @@ protected:
 	ACloud* Cloud;
 
 	UPROPERTY(BlueprintReadWrite)
-	bool bFollowPlayer;
+		bool bFollowPlayer;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

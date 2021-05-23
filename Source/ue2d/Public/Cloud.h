@@ -9,13 +9,14 @@
 class UBoxComponent;
 class UTextRenderComponent;
 class AMuffin;
+class USoundCue;
 
 UCLASS()
 class UE2D_API ACloud : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ACloud();
 
@@ -28,28 +29,39 @@ protected:
 	void DisplayScore();
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void FadeOut();
+		void FadeOut();
 
-	UPROPERTY(VisibleAnyWhere, Category="Collision")
-	UBoxComponent* BoxCollision;
+	void EnableRain();
 
-	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category="Show")
-	UStaticMeshComponent* CloudPlane;
+	UPROPERTY(VisibleAnyWhere, Category = "Collision")
+		UBoxComponent* BoxCollision;
 
-	UPROPERTY(EditAnyWhere, Category="Show")
-	TArray<UTexture*> Textures;
+	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = "Show")
+		UStaticMeshComponent* CloudPlane;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = "Show")
+		UStaticMeshComponent* RainPlane;
+
+	UPROPERTY(EditAnyWhere, Category = "Show")
+		TArray<UTexture*> Textures;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Show")
-	UMaterialInstanceDynamic* MatInstance;
+		UMaterialInstanceDynamic* MatInstance;
 
 	UMaterialInterface* MatInterface;
 
 	AMuffin* Muffin;
 
-	UPROPERTY(VisibleAnyWhere, Category = "Show")
-	UTextRenderComponent* ScoreText;
+	UPROPERTY(EditAnywhere, Category = "Sound")
+		USoundCue* CloudSound;
 
-public:	
+	UPROPERTY(VisibleAnywhere, Category = "Sound")
+		UAudioComponent* AudioComponent;
+
+	UPROPERTY(VisibleAnyWhere, Category = "Show")
+		UTextRenderComponent* ScoreText;
+
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

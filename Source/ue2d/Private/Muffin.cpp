@@ -7,7 +7,7 @@
 // Sets default values
 AMuffin::AMuffin()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	LaunchVelocity = FVector(0, 0, 1500);
 	AirSpeed = 3500.0f;
@@ -19,7 +19,7 @@ AMuffin::AMuffin()
 void AMuffin::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	PC = Cast<APlayerController>(GetController());
 	PC->bShowMouseCursor = true;
 }
@@ -29,8 +29,10 @@ void AMuffin::MoveTowardsCursor()
 	FVector MouseLocation, MouseDirection;
 	PC->DeprojectMousePositionToWorld(MouseLocation, MouseDirection);
 	float YDir = FMath::Clamp(MouseLocation.Y - GetActorLocation().Y, -1.0f, 1.0f);
+
+	float ScaleValue = FMath::Clamp(FMath::Abs(MouseLocation.Y - GetActorLocation().Y) / 100, 0.0f, 1.0f);
 	FVector Dir = FVector(0, YDir, 0);
-	AddMovementInput(Dir);
+	AddMovementInput(Dir, ScaleValue);
 }
 
 void AMuffin::LaunchOnAnyKeyPress()

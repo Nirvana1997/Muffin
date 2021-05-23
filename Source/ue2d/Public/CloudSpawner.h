@@ -14,8 +14,8 @@ UCLASS()
 class UE2D_API ACloudSpawner : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ACloudSpawner();
 
@@ -25,27 +25,30 @@ protected:
 
 	void SpawnCloud();
 
-	UPROPERTY(VisibleAnyWhere, Category="Component")
-	UBoxComponent* SpawnArea;
+	UFUNCTION(BlueprintCallable)
+		void Reset();
 
-	UPROPERTY(VisibleAnyWhere, Category="Component")
-	UBoxComponent* TriggerArea;
+	UPROPERTY(VisibleAnyWhere, Category = "Component")
+		UBoxComponent* SpawnArea;
 
-	UPROPERTY(VisibleAnyWhere, Category="Component")
-	USceneComponent* DefaultRootComponent;
+	UPROPERTY(VisibleAnyWhere, Category = "Component")
+		UBoxComponent* TriggerArea;
 
-	UPROPERTY(EditAnyWhere, Category="Cloud")
-	TSubclassOf<ACloud> Cloud;
+	UPROPERTY(VisibleAnyWhere, Category = "Component")
+		USceneComponent* DefaultRootComponent;
+
+	UPROPERTY(EditAnyWhere, Category = "Cloud")
+		TSubclassOf<ACloud> Cloud;
 
 	AMuffin* Muffin;
 
-	UPROPERTY(EditAnyWhere, Category="Cloud")
-	int InitialSpawnAmount;
+	UPROPERTY(EditAnyWhere, Category = "Cloud")
+		int InitialSpawnAmount;
 
 	UPROPERTY(EditAnyWhere, Category = "Cloud")
-	float SpawnSpacing;
+		float SpawnSpacing;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

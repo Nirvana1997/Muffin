@@ -28,12 +28,13 @@ protected:
 	void GameOver();
 
 	UFUNCTION(BlueprintCallable)
-	void Reset();
+		void Reset();
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void DisplayRestart();
+		void DisplayRestart();
 
-	bool bDead;
+	UPROPERTY(BlueprintReadOnly)
+		bool bDead;
 
 	bool bGameStarted;
 
@@ -41,14 +42,14 @@ protected:
 
 	FVector LaunchVelocity;
 
-	UPROPERTY(EditAnyWhere, Category="Speed")
-	float AirSpeed;
 	UPROPERTY(EditAnyWhere, Category = "Speed")
-	float GroundSpeed;
+		float AirSpeed;
+	UPROPERTY(EditAnyWhere, Category = "Speed")
+		float GroundSpeed;
 
 	int Score;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
